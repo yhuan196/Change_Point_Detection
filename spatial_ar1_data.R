@@ -108,13 +108,14 @@ gen_one_change_point_data <- function(S, TT, theta1, theta2, change_point_ratio 
 #' @param theta2
 #' @param change_point_ratio
 #'---------------------------------------------------------------------------------------------------------
+smalSamp <- FALSE
 
 if(smalSamp){
   # TT 20, 2x2 spatial locations
   set.seed(1128)
   
   S <- 2^2                  # Number of spatial locations (e.g., 2x2 grid)
-  TT <- 15                  # Total temporal length, 20 time points
+  TT <- 20                  # Total temporal length, 20 time points
   theta1 <- c(-0.4, 0.5, 1) # Parameters for first segment
   theta2 <- c(-0.2, 0.6, 1) # Parameters for second segment (post-change)
   change_point_ratio <- 0.5 # Change occurs at 50% of the time
@@ -123,17 +124,11 @@ if(smalSamp){
   
   y <- result$data
   spatial_coords <- result$spatial_coords
-  distance_matrix <- result$distance_matrix
+  S.dist <- result$distance_matrix
   
-  data1 <- data.frame(
-    time = rep(1:TT, each = S),
-    location = rep(1:S, TT),
-    value = as.vector(y)
-  )
+  data <- list(y=y, S.dist=S.dist)
   
-  data1 <- data1 %>% group_by(location) %>% 
-    pivot_wider(names_from = location, values_from = value) %>%
-    select(-1)
+  save(data, file = "data_n80.RData")
   
   }else{
   
@@ -150,19 +145,10 @@ if(smalSamp){
   
   y <- result$data
   spatial_coords <- result$spatial_coords
-  distance_matrix <- result$distance_matrix
+  S.dist <- result$distance_matrix
   
-  data2 <- data.frame(
-    time = rep(1:TT, each = S),
-    location = rep(1:S, TT),
-    value = as.vector(y)
-  )
-  
-  data2 <- data2 %>% group_by(location) %>% 
-    pivot_wider(names_from = location, values_from = value) %>%
-    select(-1)
-  
-  save(data2, file = "data_n450.RData")
+  data <- list(y=y, S.dist=S.dist)
+  save(data, file = "data_n450.RData")
   }
 
 
