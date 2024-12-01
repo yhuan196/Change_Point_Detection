@@ -112,13 +112,12 @@ smalSamp <- FALSE
 
 if(smalSamp){
   # TT 20, 2x2 spatial locations
-  set.seed(1128)
   
   S <- 2^2                  # Number of spatial locations (e.g., 2x2 grid)
   TT <- 20                  # Total temporal length, 20 time points
   theta1 <- c(-0.4, 0.5, 1) # Parameters for first segment
   theta2 <- c(-0.2, 0.6, 1) # Parameters for second segment (post-change)
-  change_point_ratio <- 0.6 # Change occurs at 50% of the time
+  change_point_ratio <- 0.5 # Change occurs at 50% of the time
   
   result <- gen_one_change_point_data(S, TT, theta1, theta2, change_point_ratio)
   
@@ -133,13 +132,12 @@ if(smalSamp){
   }else{
   
   # TT 100, 3x3 spatial locations
-  set.seed(1128)
   
   S <- 3^2                  # Number of spatial locations (e.g., 6x6 grid)
   TT <- 50                  # Total temporal length, 50 time points
   theta1 <- c(-0.4, 0.5, 1) # Parameters for first segment
   theta2 <- c(-0.2, 0.6, 1) # Parameters for second segment (post-change)
-  change_point_ratio <- 0.6 # Change occurs at 60% of the time
+  change_point_ratio <- 0.5 # Change occurs at 50% of the time
   
   result <- gen_one_change_point_data(S, TT, theta1, theta2, change_point_ratio)
   
