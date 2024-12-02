@@ -42,6 +42,7 @@ s.lag <- t.lag <- 1
 ######### Main function ##########
 # Main simulation loop
 final_result <- foreach(rep_index = 1:rep_times, .packages = c('mvtnorm','MASS', 'trend')) %dopar% {
+  set.seed(1128 + rep_index)
   # Simulate a dataset with one single change-point at 0.5 * TT
   y <- rbind(sim.y(theta = theta1, S.dist = S.dist, TT = T1, T.burn = 100),
              sim.y(theta = theta2, S.dist = S.dist, TT = T2, T.burn = 100))
