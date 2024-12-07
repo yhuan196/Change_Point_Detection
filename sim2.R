@@ -3,20 +3,21 @@ source("share_functions.R")
 library(mvtnorm)
 library(foreach)
 library(doParallel)
-registerDoParallel(24)
+cl<-makeCluster(detectCores()-2)
+registerDoParallel(cl)
 
 # Simulation settings
 rep_times <- 100
-S_sets <- c(2^2, 3^2, 6^2) # Spatial dimensions
-TT_sets <- c(20, 50)        # Temporal dimensions
+S_sets <- c(2^2, 3^2, 6^2, 8^2) # Spatial dimensions
+TT_sets <- c(20, 50, 100, 200)        # Temporal dimensions
 delta_sets <- rbind(c(0,0), c(3,0), c(4,0), c(0,4), 
-                    c(0,8), c(3,3), c(4,4)) / 10 # Change sizes
+                    c(0,8), c(3,3), c(4,4), c(2,1)) / 10 # Change sizes
 
 # Select a specific setting
-S <- S_sets[1]
+S <- S_sets[2]
 TT <- TT_sets[2]
 T1 <- T2 <- TT / 2 # Change-point is at 0.5 * TT
-delta <- delta_sets[3, ]
+delta <- delta_sets[8, ]
 
 # True model parameters
 theta1 <- c(-0.4, 0.5, 1)
@@ -80,10 +81,21 @@ final_result <- foreach(rep_index = 1:rep_times, .packages = c('mvtnorm', 'trend
 }
 
 # Save results
-save(final_result, file = "simulation_lambda_results.RData")
+save(final_result, file = "simulation_lambda_Med_results.RData")
 
 aggregate_results <- do.call(rbind, final_result)
 
 mean(aggregate_results$Estimated_Lambda)
 mean(aggregate_results$SE_Lambda)
 mean(aggregate_results$Coverage)
+
+# Check numbers of no detection
+saved_values <- list()
+for (i in 1:100) {
+  if (final_result[[i]][[2]] == "NA") {
+    saved_values[[length(saved_values) + 1]] <- list(index = i, value = final_result[[i]][[2]][[1]])
+  }
+}
+print(length(saved_values))
+
+
