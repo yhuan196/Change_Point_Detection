@@ -1,6 +1,6 @@
 # Clear workspace and load required libraries
 rm(list = ls())
-source("share_functions.R")
+source("utilities_generate.R")
 library(mvtnorm)
 library(foreach)
 library(doParallel)

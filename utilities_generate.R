@@ -1,5 +1,5 @@
 #'---------------------------------------------------------------------------------------------------------
-#' Project Name: spatial_ar1_data.R
+#' Project Name: utilities_generate.R
 #' 
 #' Short Description: One change point data generation and functions.
 #'
